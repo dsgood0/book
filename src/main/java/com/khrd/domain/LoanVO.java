@@ -8,16 +8,19 @@ public class LoanVO {
 	private int lno; // 대출번호
 	private int bno; // 게시판 번호
 	private String userid; // 회원 아이디
-	@DateTimeFormat(pattern="yyyy-MM-dd")
-	private Date regdate; // 대출일시
-	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date startdate; // 대출일시
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date mayEndDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date enddate; // 반납일시
 	private int extend; // 연장여부
-	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date ex_sdate; // 연장시작날짜
-	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date ex_edate; // 연장종료날짜
 	private String isbn;
+	private BookVO book;
 
 	public LoanVO() {
 
@@ -47,12 +50,20 @@ public class LoanVO {
 		this.userid = userid;
 	}
 
-	public Date getRegdate() {
-		return regdate;
+	public Date getStartdate() {
+		return startdate;
 	}
 
-	public void setRegdate(Date regdate) {
-		this.regdate = regdate;
+	public void setStartdate(Date startdate) {
+		this.startdate = startdate;
+	}
+
+	public Date getMayEndDate() {
+		return mayEndDate;
+	}
+
+	public void setMayEndDate(Date mayEndDate) {
+		this.mayEndDate = mayEndDate;
 	}
 
 	public Date getEnddate() {
@@ -95,11 +106,19 @@ public class LoanVO {
 		this.isbn = isbn;
 	}
 
+	public BookVO getBook() {
+		return book;
+	}
+
+	public void setBook(BookVO book) {
+		this.book = book;
+	}
+
 	@Override
 	public String toString() {
-		return "LoanVO [lno=" + lno + ", bno=" + bno + ", userid=" + userid + ", regdate=" + regdate + ", enddate="
-				+ enddate + ", extend=" + extend + ", ex_sdate=" + ex_sdate + ", ex_edate=" + ex_edate + ", isbn="
-				+ isbn + "]";
+		return "LoanVO [lno=" + lno + ", bno=" + bno + ", userid=" + userid + ", startdate=" + startdate
+				+ ", mayEndDate=" + mayEndDate + ", enddate=" + enddate + ", extend=" + extend + ", ex_sdate="
+				+ ex_sdate + ", ex_edate=" + ex_edate + ", isbn=" + isbn + ", book=" + book + "]";
 	}
 
 }

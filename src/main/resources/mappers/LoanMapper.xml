@@ -2,22 +2,53 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mappers.LoanMapper">
 	
+	<resultMap type="LoanVO" id="loanResult">
+		<id column="lno" property="lno"/>
+		<result column="bno" property="bno"/>
+		<result column="userid" property="userid"/>
+		<result column="startdate" property="startdate"/>
+		<result column="enddate" property="enddate"/>
+		<result column="extend" property="extend"/>
+		<result column="ex_sdate" property="ex_sdate"/>
+		<result column="mayEndDate" property="mayEndDate"/>
+		<result column="ex_edate" property="ex_edate"/>
+		<result column="isbn" property="isbn"/>
+		<result column="title" property="book.title"/>
+		<result column="author" property="book.author"/>
+		<result column="publisher" property="book.publisher"/>
+	</resultMap>
+	
 	<select id="selectByLno" resultType="LoanVO">
 		select * from loan where lno = #{lno}
 	</select>
 	
 	<select id="selectByBno" resultType="LoanVO">
-		select *, DATE_ADD(startdate, INTERVAL 14 DAY) from loan where bno = #{bno}
+		select *, DATE_ADD(startdate, INTERVAL 14 DAY) as mayEndDate
+		from loan where bno = #{bno}
 	</select>
 	
-	<insert id="insert" parameterType="BookDetailVO">
+	<!-- 이전 대출 책 조회 -->
+	<select id="selectByEndDateNotNull" resultMap="loanResult">
+		select *, DATE_ADD(startdate, interval 14 DAY) as mayEndDate from loan A left join bookDetail B using(bno)
+		left join book C using(isbn)
+		where A.enddate is not null and A.userid = #{userid};
+	</select>
+	
+	<!-- 대출 중인 책 조회 -->
+	<select id="selectByEndDateNull" resultMap="loanResult">
+		select *, DATE_ADD(A.startdate, interval 14 DAY) as mayEndDate from loan A left join bookDetail B using(bno)
+		left join book C using(isbn)
+		where A.enddate is null and A.userid = #{userid};
+	</select>
+	
+	<insert id="insert">
 		insert into loan(startdate, userid, bno) values(now(), #{userid}, #{bno})
 	</insert>
 	
-	<update id="updateExtend" parameterType="LoanVO">
+	<update id="updateExtend">
 		update loan
 		set extend = 1, ex_sdate = now(), ex_edate = DATE_ADD(now(), interval 14 DAY)
-		where lno = #{lno}	
+		where lno = #{lno}
 	</update>
 	
 	<update id="updateEndDate">
@@ -26,4 +57,8 @@
 		where lno = #{lno}
 	</update>
 	
+	<delete id="delete">
+		delete from loan where lno = #{lno}
+	</delete>
+
 </mapper>

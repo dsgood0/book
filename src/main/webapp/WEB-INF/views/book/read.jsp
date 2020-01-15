@@ -10,15 +10,15 @@
 		<tr>
 			<th>Image</th>
 			<c:if test="${book.imgsrc == ''}">
-					<td>
-						<img id="bookImage" src="${pageContext.request.contextPath}/resources/image/no_book_icon.png">
-					</td>				
-				</c:if>
-				<c:if test="${book.imgsrc != ''}">
-					<td>
-						<img id="bookImage" src="${pageContext.request.contextPath}/upload/displayFile?filename=${book.imgsrc}">
-					</td>
-				</c:if>
+				<td>
+					<img id="bookImage" src="${pageContext.request.contextPath}/resources/image/no_book_icon.png">
+				</td>				
+			</c:if>
+			<c:if test="${book.imgsrc != ''}">
+				<td>
+					<img id="bookImage" src="${pageContext.request.contextPath}/upload/displayFile?filename=${book.imgsrc}">
+				</td>
+			</c:if>
 		</tr>
 		<tr>
 			<th>ISBN</th>

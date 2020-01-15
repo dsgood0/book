@@ -4,11 +4,15 @@
 		margin:0 auto;
 	}
 	#notice {
-		width:500px;
+		width:450px;
 		float:left;
+		margin-left:48px;
 	}
 	#noticeMenu {
 		margin-bottom:10px;
+	}
+	#noticeMenu:hover {
+		cursor:pointer;
 	}
 	#noticeMenu .selected{
 		background:#EAEAEA;
@@ -19,15 +23,18 @@
 		text-decoration: none;
 		padding:10px;
 	}
+	#noticeMenu span:hover{
+		background-color:#BDBDBD;
+	}
 	#noticeContent {
 		background-color:#EAEAEA;
 		list-style:none;
 		margin:0;
 		padding:0;
-		width:500px;
+		width:100%;
 	}
 	#noticeContent li {
-		width:480px;
+		width:425px;
 		padding:10px;  
 	}
 	#noticeContent li a {
@@ -38,8 +45,13 @@
     	word-wrap: normal !important;
     	font-size:14px;
 		color:black;
+		text-decoration:none;
 		display:inline-block;
-		width:350px;
+		width:300px;
+	}
+	#noticeContent li a:hover {
+		color:black;
+		text-decoration:underline;
 	}
 	#noticeContent li span {
 		font-size:14px;
@@ -66,7 +78,7 @@
 		margin-top:10px;
 		border-top:2px solid #EAEAEA;
 		border-bottom:2px solid #EAEAEA;
-		padding:10px 0;
+		padding:5px 0;
 	}
 	#mainEvent #calendar table td, #mainEvent #calendar table th {
 		text-align:center;
@@ -105,9 +117,19 @@
 		padding:10px;
 	}
 	
+	#bookEvent #eventMenu span:hover {
+		background-color:#EAEAEA;
+		border:2px solid #EAEAEA;
+		border-bottom:none;
+	}
+	
 	#bookEvent #eventMenu .selected {
 		border:2px solid #EAEAEA;
 		border-bottom:none;
+	}
+	
+	#bookEvent #eventMenu:hover{
+		cursor:pointer;
 	}
 	
 	#bookRanking {
@@ -130,7 +152,7 @@
 		font-size:14px;
 		margin:0;
 		text-align:center;
-		width:130px;
+		width:150px;
 		text-overflow: ellipsis;
     	-o-text-overflow: ellipsis;
     	overflow: hidden;
@@ -143,7 +165,6 @@
 		display:block;   
 		text-align:center;
 	}
-	
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
 <script	src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
@@ -159,8 +180,8 @@
 		  pause:6000,
 		  speed:700,
 		  slideWidth:900,
-		  slideHeight:450,
-		  slideMargin:20
+		  slideMargin:20,
+		  autoHover: true
 		})
 	})
 </script>
@@ -175,6 +196,12 @@
 					</div>
 					<div>
 						<img src="${pageContext.request.contextPath}/resources/image/main_bg3.jpg">
+					</div>
+					<div>
+						<img src="${pageContext.request.contextPath}/resources/image/main_bg4.jpg">
+					</div>
+					<div>
+						<img src="${pageContext.request.contextPath}/resources/image/main_bg5.jpg">
 					</div>
 				</div>
 				<div id="subEvent">
@@ -306,4 +333,16 @@
 			</div>
  		</div>
  	</div>
+ 	
+<script>
+	$("#noticeMenu").find("span").click(function() {
+		$(this).parent().find("span").removeClass("selected");
+		$(this).addClass("selected");
+	});
+	
+	$("#eventMenu").find("span").click(function() {
+		$(this).parent().find("span").removeClass("selected");
+		$(this).addClass("selected");
+	});
+</script>
 <%@ include file="../include/footer.jsp" %>

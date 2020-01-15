@@ -96,13 +96,16 @@
 		font-size:20px;
 		display:block;
 	}
+	nav ul li a:hover {
+		text-decoration: underline;
+	}
 	#loginBox {
 		float: left;
 		padding-top: 10px;
 		margin-top: 40px;
 	}
 	
-	#loginBox a {
+	.loginBox {
 		display: inline-block;
 		color: black;
 		border: 1px solid black;
@@ -110,9 +113,18 @@
 		text-decoration: none;
 	}
 	
-	#loginState a {
+	.loginBox:hover {
+		color:white;
+		background:black;
+	}
+	
+	#loginBox #loginState a {
 		border: none;
 		color: #6799FF;
+	}
+	
+	#loginBox #loginState a:hover {
+		text-decoration: underline;
 	}
 </style>
 <script>
@@ -155,13 +167,13 @@
 			</div>
 			<div id="loginBox">
 				<c:if test="${Auth == null}">
-					<a href="/member/login">LOGIN</a>
-					<a href="/member/join">JOIN</a>
+					<a class="loginBox" href="/member/login">LOGIN</a>
+					<a class="loginBox" href="/member/join">JOIN</a>
 				</c:if>
 				<c:if test="${Auth != null}">
 					<span id="loginState"><a href="/member/detail">${Auth}</a>,
 						Hi</span>
-					<a href="/member/logout">LOGOUT</a>
+					<a class="loginBox" href="/member/logout">LOGOUT</a>
 				</c:if>
 			</div>
 		</header>

@@ -15,7 +15,7 @@ public class BookVO {
 	private List<BookDetailVO> bookdetail; // 책 상세정보
 
 	public BookVO() {
-
+		
 	}
 
 	public BookVO(String isbn, String title, String intro, String author, String publisher, String imgsrc,
