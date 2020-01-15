@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mappers.BookMapper">
+	
+	<resultMap type="BookVO" id="bookResult">
+		<id column="isbn" property="isbn"/>
+		<result column="title" property="title"/>
+		<result column="intro" property="intro"/>
+		<result column="author" property="author"/>
+		<result column="publisher" property="publisher"/>
+		<result column="imgsrc" property="imgsrc"/>
+		<result column="btno" property="booktype.no"/>
+		<result column="type" property="booktype.type"/>
+		<result column="btdiv" property="booktype.divname"/>
+		<result column="cnt" property="cnt"/>
+		<result column="loancnt" property="loancnt"/>
+	</resultMap>
+	
+	<resultMap type="BookTypeVO" id="booktypeResult">
+		<id column="btno" property="no"/>
+		<result column="type" property="type"/>
+		<result column="btdiv" property="divname"/>
+	</resultMap>
+	
+	<resultMap type="BookVO" id="bookDetailResult">
+		<id column="isbn" property="isbn"/>
+		<result column="title" property="title"/>
+		<result column="intro" property="intro"/>
+		<result column="author" property="author"/>
+		<result column="publisher" property="publisher"/>
+		<result column="imgsrc" property="imgsrc"/>
+		<result column="loancnt" property="loancnt"/>
+		<result column="btno" property="booktype.no"/>
+		<result column="type" property="booktype.type"/>
+		<result column="btdiv" property="booktype.divname"/>
+		<collection property="bookdetail" ofType="BookDetailVO">
+			<result column="bno" property="bno"/>
+			<result column="regdate" property="regdate"/>
+			<result column="exist" property="exist"/>
+			<result column="isbn" property="isbn"/>
+			<result column="loanAvail" property="loanAvail"/>
+			<result column="mayEndDate" property="mayEndDate"/>
+		</collection>
+	</resultMap>
+	
+	<select id="selectAllType" resultMap="booktypeResult">
+		select * from bookType
+	</select>
+	
+	<insert id="insert" parameterType="BookVO">
+		insert into book(isbn, title, intro, author, publisher, imgsrc, btno) values
+		(#{isbn}, #{title}, #{intro}, #{author}, #{publisher}, #{imgsrc}, #{booktype.no})
+	</insert>
+	
+	<insert id="insertDetail" parameterType="BookDetailVO">
+		insert into bookDetail(isbn) values (#{isbn})
+	</insert>
+
+	<!-- list -->
+	<select id="selectAll" resultMap="bookResult">
+		select *, count(isbn) as cnt from book left join bookType using(btno)
+		group by isbn
+	</select>
+	
+	<select id="selectByNo" resultMap="bookResult">
+		select * from book where bno = #{bno}
+	</select>
+	
+	<update id="update" parameterType="BookVO">
+		update book
+		set title = #{title}, intro = #{intro}, author = #{author}, publisher = #{publisher},
+			imgsrc = #{imgsrc}, btno = #{booktype.no}
+		where isbn = #{isbn}
+	</update>
+	
+	<!-- 논리 삭제 -->
+	<update id="delete">
+		update bookDetail set exist = 0 where bno = #{bno}
+	</update>
+
+	<!-- 마지막에 추가된 ISBN 가져오기 -->
+	<select id="selectLastIsbn">
+		select isbn from book left join bookDetail using(isbn) order by bno desc limit 0, 1
+	</select>
+	
+	<!-- read -->
+	<select id="selectByIsbn" resultMap="bookDetailResult">
+		select *, (enddate is null and startdate is not null) loanAvail, DATE_ADD(startdate, interval 14 DAY) mayEndDate
+		from book left join bookType using(btno)
+		left join bookDetail using(isbn)
+		left join loan using(bno)
+		where isbn = #{isbn} and enddate is null order by bno desc
+	</select>
+	
+	<!-- 동일한 제목, 저자, 출판사, 분류를 가진 책이 있을 경우 그 책과 동일한 ISBN을 부여 -->
+	<select id="findbookIsbn" parameterType="BookVO" resultType="String">
+		select isbn from book left join bookType using(btno)
+		where title = #{title} and author = #{author} and publisher = #{publisher} and btno = #{booktype.no}
+	</select>
+	
+	<select id="findType" parameterType="BookTypeVO" resultType="String">
+		select type from bookType where btno = #{btno}
+	</select>
+	
+	<update id="updateLoanCnt">
+		update book
+		set loancnt = loancnt + 1
+		where isbn = #{isbn}
+	</update>
+	
+	<update id="updateBookCnt">
+		update book A left join bookDetail B using (isbn)
+		set A.cnt = (select count(bno) from bookDetail where isbn = #{isbn} group by isbn)
+		where A.isbn = #{isbn}
+	</update>
+	
+	<select id="selectBnoByIsbn" resultMap="bookDetailResult">
+		select bno from book A left join bookDetail B using(isbn) where isbn = #{isbn}
+	</select>
+	
+</mapper>
