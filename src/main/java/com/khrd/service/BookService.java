@@ -12,6 +12,7 @@ public interface BookService {
 	public List<BookVO> list();
 	public BookVO read(String isbn);
 	public void update(BookVO vo);
+	public void updateNoImage(BookVO vo);
 	public void delete(int bno);
 	public void deleteAll(String isbn);
 }

@@ -73,6 +73,7 @@ public class BookController {
 
 			vo.setImgsrc(savedName);
 		}
+		
 		bookService.regist(vo);
 		
 		return "redirect:/book/list";
@@ -88,28 +89,40 @@ public class BookController {
 	}
 	
 	@RequestMapping(value = "modify", method = RequestMethod.POST)
-	public String modifyPost(BookVO vo) {
+	public String modifyPost(BookVO vo, MultipartFile imgfile, String delfile) throws IOException, Exception {
 		logger.info("================ modify Post =================");
 		
-		bookService.regist(vo);
+		if(imgfile != null && delfile == null) {
+			String savedName = UploadFileUtils.uploadFile(uploadPath, imgfile.getOriginalFilename(), imgfile.getBytes());
+			
+			vo.setImgsrc(savedName);
+			
+			bookService.update(vo);
+		} else {
+			UploadFileUtils.deleteFile(uploadPath, delfile);
+			
+			bookService.updateNoImage(vo);
+		}	
 		
 		return "redirect:/book/read?isbn="+vo.getIsbn();
 	}
 	
 	@RequestMapping(value = "remove", method = RequestMethod.GET)
-	public void removeGet(int bno) {
+	public String removeGet(int bno) {
 		logger.info("================ remove Get =================");
 		
 		bookService.delete(bno);
 		
+		return "redirect:/book/list";
 	}
 	
 	@RequestMapping(value = "removeAll", method = RequestMethod.GET)
-	public void removeAllGet(String isbn) {
+	public String removeAllGet(String isbn) {
 		logger.info("================ remove Get =================");
 		
 		bookService.deleteAll(isbn);
 		
+		return "redirect:/book/list";
 	}
 	
 	@RequestMapping(value = "read", method = RequestMethod.GET)

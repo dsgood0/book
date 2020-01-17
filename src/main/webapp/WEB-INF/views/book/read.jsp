@@ -40,11 +40,15 @@
 			<th>Publisher</th>
 			<td>${book.publisher}</td>
 		</tr>
+		<tr>
+			<th>Intro</th>
+			<td>${book.intro}</td>			
+		</tr>
 	</table>
 	
 	<div>
 		<a href="/book/modify?isbn=${book.isbn}">Modify</a>
-		<a href="/book/delete?isbn=${book.isbn}">Remove</a>
+		<a href="/book/removeAll?isbn=${book.isbn}">Remove</a>
 	</div>
 
 	<table>

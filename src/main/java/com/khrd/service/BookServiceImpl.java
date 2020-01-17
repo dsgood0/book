@@ -26,11 +26,15 @@ public class BookServiceImpl implements BookService {
 	@Transactional
 	@Override
 	public void regist(BookVO vo) {
+		BookVO book = new BookVO();
 		String isbn;
 
 		// 같은 제목, 같은 저자, 같은 출판사의 책이 있을 경우
-		if (dao.findbookIsbn(vo) != null) {
-			isbn = dao.findbookIsbn(vo);
+		if (dao.findbook(vo) != null) {
+			isbn = dao.findbook(vo).getIsbn();
+			
+			book.setIsbn(isbn);
+			book.setImgsrc(dao.findbook(vo).getImgsrc());
 		} else { 
 			String type = dao.findType(vo.getBooktype().getNo());
 			
@@ -42,7 +46,7 @@ public class BookServiceImpl implements BookService {
 			vo.setIsbn(isbn);
 			dao.insert(vo);
 		}
-		dao.insertDetail(isbn);
+		dao.insertDetail(book);
 		dao.updateBookCnt(isbn);
 	}
 
@@ -60,6 +64,11 @@ public class BookServiceImpl implements BookService {
 	public void update(BookVO vo) {
 		dao.update(vo);
 	}
+	
+	@Override
+	public void updateNoImage(BookVO vo) {
+		dao.updateNoImg(vo);
+	}
 
 	@Override
 	public void delete(int bno) {
@@ -69,12 +78,8 @@ public class BookServiceImpl implements BookService {
 	@Transactional
 	@Override
 	public void deleteAll(String isbn) {
-		List<Integer> bnos = dao.selectBnobyIsbn(isbn);
-		
-		for(int i=0; i<bnos.size(); i++) {
-			dao.delete(bnos.get(i));
-		}
-		
+		dao.deleteBookDetailByIsbn(isbn);
+		dao.deleteBookByIsbn(isbn);		
 	}
 
 }

@@ -53,7 +53,7 @@
 	</insert>
 	
 	<insert id="insertDetail" parameterType="BookDetailVO">
-		insert into bookDetail(isbn) values (#{isbn})
+		insert into bookDetail(isbn, imgsrc) values (#{isbn}, #{imgsrc})
 	</insert>
 
 	<!-- list -->
@@ -72,6 +72,21 @@
 			imgsrc = #{imgsrc}, btno = #{booktype.no}
 		where isbn = #{isbn}
 	</update>
+	
+	<update id="updateNoImg" parameterType="BookVO">
+		update book
+		set title = #{title}, intro = #{intro}, author = #{author}, publisher = #{publisher},
+			btno = #{booktype.no}
+		where isbn = #{isbn}
+	</update>
+	
+	<delete id="deleteBookDetailByIsbn">
+		delete from bookDetail where isbn = #{isbn}
+	</delete>
+	
+	<delete id="deleteBookByIsbn">
+		delete from book where isbn = #{isbn}
+	</delete>
 	
 	<!-- 논리 삭제 -->
 	<update id="delete">
@@ -93,8 +108,8 @@
 	</select>
 	
 	<!-- 동일한 제목, 저자, 출판사, 분류를 가진 책이 있을 경우 그 책과 동일한 ISBN을 부여 -->
-	<select id="findbookIsbn" parameterType="BookVO" resultType="String">
-		select isbn from book left join bookType using(btno)
+	<select id="findbook" parameterType="BookVO" resultType="String">
+		select isbn, imgsrc from book left join bookType using(btno)
 		where title = #{title} and author = #{author} and publisher = #{publisher} and btno = #{booktype.no}
 	</select>
 	

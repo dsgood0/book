@@ -161,7 +161,7 @@
 						<li><a href="#">Program</a></li>
 						<li><a href="#">Open Place</a></li>
 						<li><a href="#">Introduction</a></li>
-						<li><a href="#">My Library</a></li>
+						<li><a href="/book/loan/loaning">My Library</a></li>
 					</ul>
 				</nav>
 			</div>

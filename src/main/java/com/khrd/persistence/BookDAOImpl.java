@@ -58,13 +58,13 @@ public class BookDAOImpl implements BookDAO {
 	}
 
 	@Override
-	public String findbookIsbn(BookVO vo) {
-		return sqlSession.selectOne(namespace + ".findbookIsbn", vo);
+	public BookVO findbook(BookVO vo) {
+		return sqlSession.selectOne(namespace + ".findbook", vo);
 	}
 
 	@Override
-	public void insertDetail(String isbn) {
-		sqlSession.insert(namespace + ".insertDetail", isbn);
+	public void insertDetail(BookVO vo) {
+		sqlSession.insert(namespace + ".insertDetail", vo);
 	}
 
 	@Override
@@ -85,6 +85,21 @@ public class BookDAOImpl implements BookDAO {
 	@Override
 	public List<Integer> selectBnobyIsbn(String isbn) {
 		return sqlSession.selectList(namespace + ".selectBnobyIsbn", isbn);
+	}
+
+	@Override
+	public void deleteBookByIsbn(String isbn) {
+		sqlSession.delete(namespace + ".deleteBookByIsbn", isbn);
+	}
+
+	@Override
+	public void deleteBookDetailByIsbn(String isbn) {
+		sqlSession.delete(namespace + ".deleteBookDetailByIsbn", isbn);
+	}
+
+	@Override
+	public void updateNoImg(BookVO vo) {
+		sqlSession.update(namespace + ".updateNoImg", vo);
 	}
 
 }

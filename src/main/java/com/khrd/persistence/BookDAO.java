@@ -12,11 +12,13 @@ public interface BookDAO {
 	
 	// Book
 	public void insert(BookVO vo);
-	public void insertDetail(String isbn);
+	public void insertDetail(BookVO vo);
 	public List<BookVO> selectAll();
 	public BookVO selectByNo(int bno);
 	public void update(BookVO vo);
-	public void delete(int bno);
+	public void updateNoImg(BookVO vo);
+	public void delete(int bno); // 논리삭제
+	public void deleteBookByIsbn(String isbn);
 	
 	public void updateLoanCnt(String isbn);
 	public void updateBookCnt(String isbn);
@@ -24,6 +26,8 @@ public interface BookDAO {
 	// BookDetail
 	public String selectLastIsbn();
 	public BookVO selectByIsbn(String isbn);
-	public String findbookIsbn(BookVO vo);
+	public BookVO findbook(BookVO vo);
 	public List<Integer> selectBnobyIsbn(String isbn);
+	
+	public void deleteBookDetailByIsbn(String isbn);
 }

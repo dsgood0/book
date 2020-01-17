@@ -52,14 +52,14 @@
 	 	})
 	 	
 	 	$("input[name='imgfile']").change(function() {
-	 		
+	 	
 		$("#imagebox").empty();
 		$("#imagebox").css("display", "block");
 		
 		for(var i=0; i<$(this)[0].files.length; i++) {
 		
 			var file = $(this)[0].files[i];
-				
+			
 			var reader = new FileReader();
 			reader.readAsDataURL(file); // 파일 읽음
 			reader.onload = function(e) {
