@@ -53,7 +53,7 @@
 	</insert>
 	
 	<insert id="insertDetail" parameterType="BookDetailVO">
-		insert into bookDetail(isbn, imgsrc) values (#{isbn}, #{imgsrc})
+		insert into bookDetail(isbn) values (#{isbn})
 	</insert>
 
 	<!-- list -->

@@ -63,8 +63,8 @@ public class BookDAOImpl implements BookDAO {
 	}
 
 	@Override
-	public void insertDetail(BookVO vo) {
-		sqlSession.insert(namespace + ".insertDetail", vo);
+	public void insertDetail(String isbn) {
+		sqlSession.insert(namespace + ".insertDetail", isbn);
 	}
 
 	@Override

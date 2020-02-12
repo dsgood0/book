@@ -1,9 +1,11 @@
 <%@ include file="../include/header.jsp" %>
-		<form action="join" method="post">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<div id="wrapper">
+		<form action="join" method="post" id="frm">
 		 	<div id="joinBox">
 		 		<label>ID</label>
 				<input type="text" name="userid">
-				<button id="idcheck" type="button">ID Check</button><br>
+				<button type="button" id="idcheck">ID Check</button><br>
 				
 				<label>Password</label>
 				<input type="password" name="userpw"><br>
@@ -26,7 +28,7 @@
 				<input type="submit" value="Join">
 		 	</div>
 	 	</form>
-	 	
+	 </div>
 	 	<script>
 	 		var idchk = 0;
 	 		
@@ -55,11 +57,13 @@
 	 			})
 	 		})
 	 		
-	 		$("form").submit(function() {
+	 		/* $("form").submit(function() {
 	 			if(idchk == 0) {
 	 				alert("ID Check Please");
 	 				return false;
 	 			} 
-	 		})
+	 		}) */
+	 		
+	 		
 	 	</script>
 <%@ include file="../include/footer.jsp" %>

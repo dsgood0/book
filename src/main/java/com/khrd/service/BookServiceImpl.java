@@ -46,7 +46,7 @@ public class BookServiceImpl implements BookService {
 			vo.setIsbn(isbn);
 			dao.insert(vo);
 		}
-		dao.insertDetail(book);
+		dao.insertDetail(isbn);
 		dao.updateBookCnt(isbn);
 	}
 

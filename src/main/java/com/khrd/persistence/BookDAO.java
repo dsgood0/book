@@ -12,7 +12,7 @@ public interface BookDAO {
 	
 	// Book
 	public void insert(BookVO vo);
-	public void insertDetail(BookVO vo);
+	public void insertDetail(String isbn);
 	public List<BookVO> selectAll();
 	public BookVO selectByNo(int bno);
 	public void update(BookVO vo);

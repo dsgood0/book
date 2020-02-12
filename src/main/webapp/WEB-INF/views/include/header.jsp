@@ -18,9 +18,6 @@
 		margin: 0;
 		padding: 0;
 	}
-	header {
-		
-	}
 	header #logoBox {
 		width: 200px;
 		height: 100%;
